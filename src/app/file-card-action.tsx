@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, StarIcon, Trash2Icon } from "lucide-react";
+import { EllipsisVertical, Heart, Trash2Icon } from "lucide-react";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import {
   AlertDialog,
@@ -25,7 +25,13 @@ import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useToast } from "@/components/ui/use-toast";
 
-export function FileCardAction({ file }: { file: Doc<"files"> }) {
+export function FileCardAction({
+  file,
+  isFavorited,
+}: {
+  file: Doc<"files">;
+  isFavorited: boolean;
+}) {
   const deleteFile = useMutation(api.files.deleteFile);
   const toggleFavorite = useMutation(api.files.toggleFavorite);
   const { toast } = useToast();
@@ -69,16 +75,27 @@ export function FileCardAction({ file }: { file: Doc<"files"> }) {
               toggleFavorite({ fileId: file._id });
             }}
           >
-            <StarIcon className="h-5 w-5" />
-            <span className="h-5">Favorite</span>
+            {isFavorited ? (
+              <div className="flex items-center gap-1">
+                <Heart className="h-5 w-5 text-red-500" />
+                <span className="h-5">Unfavorite</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1">
+                <Heart className="h-5 w-5 text-darkBorder" />
+                <span className="h-5">Add Favorite</span>
+              </div>
+            )}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="  flex items-center gap-1 p-1 cursor-pointer hover:bg-red-400"
             onClick={() => setIsDialogAlertOpen(true)}
           >
-            <Trash2Icon className="h-5 w-5" />
-            <span className="h-5">Delete</span>
+            <div className="flex items-center gap-1">
+              <Trash2Icon className="h-5 w-5" />
+              <span className="h-5">Delete</span>
+            </div>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

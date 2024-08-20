@@ -34,14 +34,13 @@ function Placeholder() {
 
 export default function FileBrowser({
   title,
-  favorites,
+  favoritesOnly,
 }: {
   title: string;
-  favorites?: boolean;
+  favoritesOnly?: boolean;
 }) {
   const organization = useOrganization();
   const user = useUser();
-
   const [query, setQuery] = useState("");
 
   // cek apakah modul clerk organization dan modul clerk user sudah di-load
@@ -49,10 +48,14 @@ export default function FileBrowser({
   if (organization.isLoaded && user.isLoaded) {
     orgId = organization.organization?.id ?? user.user?.id;
   }
+  const favorites = useQuery(
+    api.files.getAllFavorites,
+    orgId ? { orgId } : "skip"
+  );
 
   const files = useQuery(
     api.files.getFiles,
-    orgId ? { orgId, query, favorites } : "skip"
+    orgId ? { orgId, query, favorites: favoritesOnly } : "skip"
   );
   return (
     <div>
@@ -76,7 +79,13 @@ export default function FileBrowser({
           {files.length === 0 && <Placeholder />}
 
           <div className="grid lg:grid-cols-4 gap-4">
-            {files?.map((file) => <FileCard file={file} key={file._id} />)}
+            {files?.map((file) => (
+              <FileCard
+                favorites={favorites ?? []}
+                file={file}
+                key={file._id}
+              />
+            ))}
           </div>
         </>
       )}
