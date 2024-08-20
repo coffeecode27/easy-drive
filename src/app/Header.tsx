@@ -12,8 +12,8 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className="border-b py-2 bg-gray-50 sticky top-0 z-10">
-      <div className="container  flex justify-between items-center">
+    <div className="border-b-2 border-black py-5  sticky top-0 z-10 bg-white">
+      <div className=" flex px-16 justify-between items-center">
         <Link href="/">
           <div className="flex items-center">
             <Image
@@ -27,8 +27,18 @@ const Header = () => {
         </Link>
 
         <SignedIn>
-          <Button variant={"outline"}>
-            <Link href="/dashboard/files">Your Files</Link>
+          <Button variant="link">
+            <Link href="/dashboard/files">
+              <div className="flex items-center">
+                <Image
+                  src="/icon/file-icon.svg"
+                  width={35}
+                  height={35}
+                  alt="icon"
+                />
+                Your Files
+              </div>
+            </Link>
           </Button>
         </SignedIn>
 
@@ -36,7 +46,7 @@ const Header = () => {
           <OrganizationSwitcher />
           <div
             style={{ padding: "2px" }}
-            className=" border-double border-2 border-gray-800 rounded-full flex justify-center items-center"
+            className="  flex justify-center items-center"
           >
             <UserButton />
           </div>
