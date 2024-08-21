@@ -24,7 +24,7 @@ import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useToast } from "@/components/ui/use-toast";
-
+import { Protect } from "@clerk/nextjs";
 export function FileCardAction({
   file,
   isFavorited,
@@ -87,6 +87,7 @@ export function FileCardAction({
               </div>
             )}
           </DropdownMenuItem>
+          {/* <Protect role="org:admin" fallback={<></>}> */}
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="  flex items-center gap-1 p-1 cursor-pointer hover:bg-red-400"
@@ -97,6 +98,7 @@ export function FileCardAction({
               <span className="h-5">Delete</span>
             </div>
           </DropdownMenuItem>
+          {/* </Protect> */}
         </DropdownMenuContent>
       </DropdownMenu>
     </>
